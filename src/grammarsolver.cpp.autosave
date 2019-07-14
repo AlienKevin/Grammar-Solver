@@ -1,8 +1,0 @@
-#include "grammarsolver.h"
-using namespace std;
-
-Vector<string> grammarGenerate(istream& input, string symbol, int times) {
-    Map<
-    Vector<string> v;   // this is only here so it will compile
-    return v;           // this is only here so it will compile
-}
