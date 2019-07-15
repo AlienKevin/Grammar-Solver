@@ -1,3 +1,9 @@
+/**
+ * Grammar Solver assignment for CS106B at Stanford Summer Session 2019
+ * Author: Kevin Li
+ * Description: This program randomly generate a symbol (e.g sentence, expression, ...) based on
+ * a set of grammar rules
+ */
 #include "grammarsolver.h"
 #include "map.h"
 #include "strlib.h"
@@ -8,6 +14,13 @@ using namespace std;
 Vector<string> grammarGenerate(istream& input, string symbol, int times);
 string grammarGenerateHelper(string symbol, const Map<string, Vector<string>>& grammars);
 
+/**
+ * @brief Generate a type of symbol a number of times based on input grammar rules
+ * @param input the inputted grammar rules to follow
+ * @param symbol the symbol to generate
+ * @param times the number of times to generate
+ * @return a Vector containing all randomly generated symbols
+ */
 Vector<string> grammarGenerate(istream& input, string symbol, int times) {
     if (times == 0) {
         Vector<string> emptyVector;
@@ -34,6 +47,12 @@ Vector<string> grammarGenerate(istream& input, string symbol, int times) {
     return results;
 }
 
+/**
+ * @brief Helper function for generating symbols recursively
+ * @param symbol the symbol to generate
+ * @param grammars the grammar rules to follow
+ * @return a string containg the symbol generated
+ */
 string grammarGenerateHelper(string symbol, const Map<string, Vector<string>>& grammars) {
     if (symbol == "") {
         throw "Error: Empty symbol. Must be a terminal or non-terminal.";
