@@ -30,8 +30,8 @@ Vector<string> grammarGenerate(istream& input, string symbol, int times) {
     Map<string, Vector<string>> grammars;
     string line;
     while (getline(input, line)) {
-        string nonterminal = stringSplit(line, "::=")[0];
-        Vector<string> rules = stringSplit(stringSplit(line, "::=")[1], "|");
+        string nonterminal = trim(stringSplit(line, "::=")[0]);
+        Vector<string> rules = stringSplit(trim(stringSplit(line, "::=")[1]), "|");
         if (grammars.containsKey(nonterminal)) { // duplicated rules
             throw "Error: Duplicated rules.";
         } else {
@@ -61,11 +61,13 @@ string grammarGenerateHelper(string symbol, const Map<string, Vector<string>>& g
         return symbol;
     } else {
         Vector<string> rules = grammars[symbol];
-        string randomRule = randomElement(rules);
+        string randomRule = trim(randomElement(rules));
         Vector<string> tokens = stringSplit(randomRule, " ");
         string result = "";
         for (string token : tokens) {
-            result += grammarGenerateHelper(token, grammars) + " ";
+            if (token != "") {
+                result += grammarGenerateHelper(token, grammars) + " ";
+            }
         }
         return trim(result);
     }
