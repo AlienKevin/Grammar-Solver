@@ -1,0 +1,8 @@
+When I was designing extra features for my grammar solver, I tried to make every terminal be surrounded by single or double quotes. When I tried to define the grammar rule for declaration in Javascript like this:
+<decl>  ::= "let " <id> ";"|"var " <id> ";"|"const " <id> ";"
+which include spaces in the quoted string terminals, no spaces are inserted between the scope identifiers and the variable names. In addition, the generated declaration statements are like:
+"letX0W;
+which begins with a double quote and ended up throwing errors.
+I printed the grammar map and found that the issue was I used space to split the rules into tokens. I fixed this issue by introducing a new <sp> non-terminal that symbolized a space. So the new rule looked like this:
+<decl>  ::= "let" <sp> <id> ";"|"var" <sp> <id> ";"|"const" <sp> <id> ";"
+The declaration statement is now working.
