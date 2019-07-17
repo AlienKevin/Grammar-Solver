@@ -30,7 +30,7 @@ Vector<string> grammarGenerate(istream& input, string symbol, int times) {
     Map<string, Vector<string>> grammars;
     string line;
     while (getline(input, line)) {
-        if (stringContains(line, "::=")) {
+        if (stringContains(line, "::=") && !startsWith(line, ";")) { // exclude comments and empty lines
             string nonterminal = trim(stringSplit(line, "::=")[0]);
             Vector<string> rules = stringSplit(trim(stringSplit(line, "::=")[1]), "|");
             if (grammars.containsKey(nonterminal)) { // duplicated rules
