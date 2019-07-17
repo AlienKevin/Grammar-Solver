@@ -30,15 +30,17 @@ Vector<string> grammarGenerate(istream& input, string symbol, int times) {
     Map<string, Vector<string>> grammars;
     string line;
     while (getline(input, line)) {
-        string nonterminal = trim(stringSplit(line, "::=")[0]);
-        Vector<string> rules = stringSplit(trim(stringSplit(line, "::=")[1]), "|");
-        if (grammars.containsKey(nonterminal)) { // duplicated rules
-            throw "Error: Duplicated rules.";
-        } else {
-            grammars[nonterminal] = rules;
+        if (stringContains(line, "::=")) {
+            string nonterminal = trim(stringSplit(line, "::=")[0]);
+            Vector<string> rules = stringSplit(trim(stringSplit(line, "::=")[1]), "|");
+            if (grammars.containsKey(nonterminal)) { // duplicated rules
+                throw "Error: Duplicated rules.";
+            } else {
+                grammars[nonterminal] = rules;
+            }
         }
     }
-
+    cout << grammars << endl;
     // generate random symbol
     Vector<string> results;
     for (int i = 0; i < times; i++) {
@@ -58,7 +60,15 @@ string grammarGenerateHelper(string symbol, const Map<string, Vector<string>>& g
         throw "Error: Empty symbol. Must be a terminal or non-terminal.";
     }
     if (!grammars.containsKey(symbol)) { // not a nonterminal
-        return symbol;
+        if ((startsWith(symbol, '"') && endsWith(symbol, '"')) ||
+                (startsWith(symbol, "'") && endsWith(symbol, "'"))) { // double-quoted string
+//            cout << symbol << endl;
+            return symbol.substr(1, symbol.size() - 2);
+        } else if (symbol == "<sp>") { // special space symbol, " " is unusable because space is used to split tokens
+            return " ";
+        } else {
+            throw "Unrecognized symbol: " + symbol;
+        }
     } else {
         Vector<string> rules = grammars[symbol];
         string randomRule = trim(randomElement(rules));
@@ -66,7 +76,7 @@ string grammarGenerateHelper(string symbol, const Map<string, Vector<string>>& g
         string result = "";
         for (string token : tokens) {
             if (token != "") {
-                result += grammarGenerateHelper(token, grammars) + " ";
+                result += grammarGenerateHelper(token, grammars);
             }
         }
         return trim(result);
