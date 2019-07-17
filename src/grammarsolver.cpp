@@ -2,7 +2,13 @@
  * Grammar Solver assignment for CS106B at Stanford Summer Session 2019
  * Author: Kevin Li
  * Description: This program randomly generate a symbol (e.g sentence, expression, ...) based on
- * a set of grammar rules
+ * a set of grammar rules. There are several rules of the BNF parser used by this program:
+ * 1. Terminals must be surrounded by single quotes (') or double quotes (")
+ * 2. Spaces are NOT permitted in terminals because it is used to split tokens in a rule
+ * 3. No whitespace is inserted by default between symbols
+ * 4. To add a single space between symbols, use <sp> special reserved non-terminal
+ * 5. You can include comments in your grammar text file but they must be on their
+ *    own lines and starts with a semicolon ";".
  */
 #include "grammarsolver.h"
 #include "map.h"
